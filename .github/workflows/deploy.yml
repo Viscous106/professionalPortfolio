@@ -1,0 +1,61 @@
+name: Deploy portfolio to GitHub Pages
+
+# Deploys the static Next.js export in web/ to GitHub Pages.
+# Setup (one time): repo Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# Hosts at https://viscous106.github.io/professionalPortfolio
+# For a user site (viscous106.github.io) or a custom domain, remove the
+# PAGES_BASE_PATH env below so the base path is empty.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress run.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        env:
+          PAGES_BASE_PATH: /professionalPortfolio
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
