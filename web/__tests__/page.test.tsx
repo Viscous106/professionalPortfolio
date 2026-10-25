@@ -8,7 +8,7 @@ describe('home page', () => {
     expect(screen.getByRole('heading', { level: 1, name: /Yash Virulkar/i })).toBeInTheDocument();
   });
 
-  it('renders all 8 project names', () => {
+  it('renders featured project names', () => {
     render(<Home />);
     for (const name of ['omniBox', 'Orkflow', 'nodeLive', 'rs-shell', 'RuView', 'VISC-ASSistant', 'mergit', 'CrownOS']) {
       expect(screen.getByRole('heading', { name })).toBeInTheDocument();

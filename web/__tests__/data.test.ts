@@ -8,8 +8,8 @@ describe('portfolio content', () => {
     expect(portfolio.tagline.length).toBeGreaterThan(0);
   });
 
-  it('features 8 projects including mergit and CrownOS', () => {
-    expect(portfolio.projects).toHaveLength(8);
+  it('features 12 projects including mergit and CrownOS', () => {
+    expect(portfolio.projects).toHaveLength(12);
     const names = portfolio.projects.map((p) => p.name);
     expect(names).toContain('mergit');
     expect(names).toContain('CrownOS');

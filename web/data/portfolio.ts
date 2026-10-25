@@ -14,11 +14,11 @@ export const portfolio: Portfolio = {
     "Whatever the domain, I care about understanding the whole system rather than just the surface.",
   ],
   skills: [
-    { category: 'Languages', skills: ['Python', 'Go', 'Rust', 'Java', 'JavaScript / TypeScript', 'C++', 'Bash'] },
+    { category: 'Languages', skills: ['Python', 'Go', 'Rust', 'Java', 'JavaScript / TypeScript', 'C++', 'Bash', 'Perl'] },
     { category: 'Web', skills: ['React', 'Next.js', 'Node.js', 'HTML', 'CSS'] },
     { category: 'AI / ML', skills: ['LLMs', 'Agent Orchestration', 'Reinforcement Learning'] },
     { category: 'Web3', skills: ['Solidity', 'Smart Contracts', 'Monad'] },
-    { category: 'Systems / Infra', skills: ['Kubernetes', 'Linux (Arch, Nix)', 'Git'] },
+    { category: 'Systems / Infra', skills: ['Kubernetes', 'Docker', 'Linux (Arch, NixOS)', 'Git', 'Neovim'] },
     { category: 'Security', skills: ['Offensive Security', 'CTF / Hacking Notes'] },
   ],
   projects: [
@@ -74,9 +74,9 @@ export const portfolio: Portfolio = {
     {
       name: 'mergit',
       blurb:
-        'An AI-agent workspace where agents complete real dev and GitHub tasks and generate on-chain proof of their work, identity, reputation, and accountability — backed by Solidity contracts (AgentPassport, ProofOfWork, ReputationRegistry, AuditTrail) on Monad.',
-      tech: ['AI Agents', 'Solidity', 'Monad'],
-      repo: 'https://github.com/mergit-io',
+        'A trust and settlement layer for autonomous agent work — pay agents for verified outcomes, not attempts. Signed execution receipts, bonded challenges, cost-adjusted reputation, and revocable escrow, backed by Solidity contracts on an EVM L2.',
+      tech: ['AI Agents', 'Solidity', 'TypeScript'],
+      repo: 'https://github.com/mergit-io/mergit',
       tag: 'AI + Web3',
     },
     {
@@ -87,6 +87,34 @@ export const portfolio: Portfolio = {
       repo: 'https://github.com/Crown-OS',
       demo: 'https://github.com/Crown-OS/crownos-website',
       tag: 'Systems',
+    },
+    {
+      name: 'Abstain',
+      blurb: 'Self-healing API services — APIs that detect failures and recover on their own.',
+      tech: ['Python'],
+      repo: 'https://github.com/Viscous106/Abstain',
+      tag: 'Systems',
+    },
+    {
+      name: 'Receiptify',
+      blurb: 'A full-stack app that turns photos of receipts into structured, usable data.',
+      tech: ['TypeScript', 'Full-stack'],
+      repo: 'https://github.com/Viscous106/Receiptify',
+      tag: 'Web',
+    },
+    {
+      name: 'iUseNixBtw',
+      blurb: 'My declarative NixOS configuration — the whole machine, reproducible from a repo.',
+      tech: ['Nix', 'Shell', 'NixOS'],
+      repo: 'https://github.com/Viscous106/iUseNixBtw',
+      tag: 'Systems',
+    },
+    {
+      name: 'claude-skills',
+      blurb: 'A personal toolkit of Claude Code skills, agents, and slash commands.',
+      tech: ['Python', 'Claude Code'],
+      repo: 'https://github.com/Viscous106/claude-skills',
+      tag: 'AI',
     },
   ],
   timeline: [
@@ -106,6 +134,11 @@ export const portfolio: Portfolio = {
       period: 'Present',
       detail: 'Driving open-source culture and projects on campus.',
     },
+    {
+      title: 'Member',
+      org: 'AI/ML Club — SST',
+      period: 'Present',
+    },
   ],
   achievements: [
     {
@@ -114,9 +147,14 @@ export const portfolio: Portfolio = {
       href: 'https://github.com/Viscous106',
     },
     {
+      title: 'GitHub achievements',
+      detail: 'Pull Shark ×2, Pair Extraordinaire, YOLO, and Quickdraw badges; member of the Crown-OS, mergit-io, and Scaler Open Source Labs organizations.',
+      href: 'https://github.com/Viscous106',
+    },
+    {
       title: 'Currently building — mergit',
-      detail: 'An on-chain AI-agent accountability platform (Solidity contracts on Monad).',
-      href: 'https://github.com/mergit-io',
+      detail: 'A trust and settlement layer for autonomous agent work (Solidity contracts, verifiable execution receipts). 11 GitHub stars.',
+      href: 'https://github.com/mergit-io/mergit',
     },
     {
       title: 'Currently building — CrownOS',
@@ -128,7 +166,7 @@ export const portfolio: Portfolio = {
     { label: 'GitHub', href: 'https://github.com/Viscous106', icon: 'github' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/yash-virulkar-338418329', icon: 'linkedin' },
     { label: 'Email', href: 'mailto:virulkaryashed@gmail.com', icon: 'email' },
-    { label: 'X', href: 'https://x.com/yash_virulkar_', icon: 'twitter' },
+    { label: 'X', href: 'https://x.com/viscous106', icon: 'twitter' },
     { label: 'Instagram', href: 'https://instagram.com/ynvirulkar', icon: 'instagram' },
   ],
   codingNotesHref: 'https://github.com/Viscous106/codingNotes',
