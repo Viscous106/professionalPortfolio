@@ -2,9 +2,8 @@ name: Deploy portfolio to GitHub Pages
 
 # Deploys the static Next.js export in web/ to GitHub Pages.
 # Setup (one time): repo Settings → Pages → Build and deployment → Source: "GitHub Actions".
-# Hosts at https://viscous106.github.io/professionalPortfolio
-# For a user site (viscous106.github.io) or a custom domain, remove the
-# PAGES_BASE_PATH env below so the base path is empty.
+# Hosts at https://yash.mergit.site (custom domain, served from the root, so
+# no PAGES_BASE_PATH / base path is set). The domain is declared in web/public/CNAME.
 
 on:
   push:
@@ -40,8 +39,6 @@ jobs:
         run: npm ci
 
       - name: Build static export
-        env:
-          PAGES_BASE_PATH: /professionalPortfolio
         run: npm run build
 
       - name: Upload Pages artifact

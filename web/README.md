@@ -20,15 +20,16 @@ All content lives in `data/portfolio.ts`. Edit that file only.
 **GitHub Pages (configured).** A workflow at `.github/workflows/deploy.yml` builds this
 folder and deploys the static export on every push to `main`. One-time setup: in the repo,
 go to **Settings → Pages → Build and deployment → Source: "GitHub Actions"**. The site then
-publishes to `https://viscous106.github.io/professionalPortfolio`.
+publishes to `https://yash.mergit.site` (custom domain, set in `public/CNAME`).
 
-The subpath is handled by `PAGES_BASE_PATH` (set to `/professionalPortfolio` in the workflow),
-which drives `basePath`/`assetPrefix` in `next.config.mjs`. Plain links to files in `public/`
-use `lib/basePath.ts`'s `withBasePath()` so they resolve under the subpath too.
+DNS: point `yash.mergit.site` at GitHub Pages (a `CNAME` record to `viscous106.github.io`),
+then set the custom domain under **Settings → Pages** and enable **Enforce HTTPS**.
 
-To move to a **user site** (`viscous106.github.io`) or a **custom domain**, remove the
-`PAGES_BASE_PATH` env from the workflow (empty base path) and deploy from a repo named
-`viscous106.github.io` (or add a `CNAME`).
+The site is served from the domain root, so no base path is needed. To host under a subpath
+instead (e.g. `viscous106.github.io/professionalPortfolio`), set `PAGES_BASE_PATH` to
+`/professionalPortfolio` in the workflow and remove `public/CNAME`; it drives
+`basePath`/`assetPrefix` in `next.config.mjs`, and `lib/basePath.ts`'s `withBasePath()`
+handles plain links to files in `public/`.
 
 Other hosts (no config change needed — `npm run build` outputs to `out/`):
 - **Vercel:** import the repo, set root directory to `web/`. Zero config.
