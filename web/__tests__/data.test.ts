@@ -8,12 +8,43 @@ describe('portfolio content', () => {
     expect(portfolio.tagline.length).toBeGreaterThan(0);
   });
 
-  it('features 12 projects including mergit and CrownOS', () => {
-    expect(portfolio.projects).toHaveLength(12);
+  it('features 11 projects, led by mergit, without RuView', () => {
+    expect(portfolio.projects).toHaveLength(11);
     const names = portfolio.projects.map((p) => p.name);
-    expect(names).toContain('mergit');
+    expect(names[0]).toBe('mergit');
     expect(names).toContain('CrownOS');
     expect(names).toContain('omniBox');
+    expect(names).not.toContain('RuView');
+  });
+
+  it('shows Yash as a Crown-OS contributor, never its founder or maintainer', () => {
+    const crown = portfolio.projects.find((p) => p.name === 'CrownOS')!;
+    expect(crown.blurb).toMatch(/contributor/i);
+    expect(JSON.stringify(portfolio)).not.toMatch(/(founder|maintainer)[^"]*crown|crown[^"]*(founder|maintainer)/i);
+  });
+
+  it('lists the Mergit co-founder role, the ETHGlobal result and the Web3 Lead role', () => {
+    const roles = portfolio.timeline.map((t) => `${t.title} @ ${t.org}`);
+    expect(roles).toContain('Co-founder @ Mergit');
+    expect(roles).toContain('Web3 Lead @ Open Source Club — SST');
+    expect(portfolio.achievements.map((a) => a.title)).toContain('2nd place, ETHGlobal Mumbai');
+  });
+
+  it('links achievements to pages a logged-out visitor can open', () => {
+    for (const a of portfolio.achievements) {
+      expect(a.href ?? '').not.toMatch(/^https:\/\/github\.com\/pulls/);
+    }
+  });
+
+  it('attributes ~200 to the club, not the Web3 track', () => {
+    expect(JSON.stringify(portfolio)).not.toMatch(/track for ~200/);
+  });
+
+  it('contains none of the retired or private facts', () => {
+    const all = JSON.stringify(portfolio);
+    for (const banned of ['InterviewBit', 'RuView', 'Monad', 'mainnet', 'gmail', 'USDC', '98347', 'Abhinav']) {
+      expect(all).not.toContain(banned);
+    }
   });
 
   it('every project has a repo link and at least one tech tag', () => {
@@ -33,6 +64,6 @@ describe('portfolio content', () => {
     const icons = portfolio.socials.map((s) => s.icon).sort();
     expect(icons).toEqual(['email', 'github', 'instagram', 'linkedin', 'twitter']);
     const email = portfolio.socials.find((s) => s.icon === 'email');
-    expect(email!.href).toBe('mailto:virulkaryashed@gmail.com');
+    expect(email!.href).toBe('mailto:yash.virulkar@proton.me');
   });
 });

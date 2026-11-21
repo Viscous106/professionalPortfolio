@@ -10,7 +10,7 @@ describe('home page', () => {
 
   it('renders featured project names', () => {
     render(<Home />);
-    for (const name of ['omniBox', 'Orkflow', 'nodeLive', 'rs-shell', 'RuView', 'VISC-ASSistant', 'mergit', 'CrownOS']) {
+    for (const name of ['omniBox', 'Orkflow', 'nodeLive', 'rs-shell', 'VISC-ASSistant', 'mergit', 'CrownOS']) {
       expect(screen.getByRole('heading', { name })).toBeInTheDocument();
     }
   });
