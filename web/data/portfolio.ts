@@ -4,7 +4,7 @@ export const portfolio: Portfolio = {
   name: 'Yash Virulkar',
   tagline: 'Building across AI, systems, and the web.',
   intro:
-    'Co-founder of Mergit (2nd place, ETHGlobal Mumbai). I design and ship agentic AI systems, smart contracts, and full-stack products — and I like understanding every layer, from compositors to smart contracts.',
+    '2× hackathon winner and co-founder of Mergit (2nd place, ETHGlobal Mumbai). I design and ship agentic AI systems, smart contracts, and full-stack products — and I like understanding every layer, from compositors to smart contracts.',
   location: 'Bangalore, India',
   photo: 'https://github.com/Viscous106.png',
   resumeHref: '/Yash_Virulkar_Resume.pdf',
@@ -127,7 +127,6 @@ export const portfolio: Portfolio = {
       title: 'Core Member',
       org: 'Open Source Club — SST',
       period: '2025 – Present',
-      detail: 'Mentoring students to their first merged pull request.',
     },
     {
       title: 'Computer Science',
@@ -149,7 +148,7 @@ export const portfolio: Portfolio = {
     {
       title: '2nd place, ETHGlobal Mumbai',
       detail: 'Nov 2026, with Mergit — a trust and settlement layer for AI-agent work, with ENS names for every agent.',
-      href: 'https://mergit.site',
+      href: 'https://github.com/mergit-io',
     },
     {
       title: 'Six merged open-source PRs',
@@ -169,9 +168,9 @@ export const portfolio: Portfolio = {
   ],
   socials: [
     { label: 'GitHub', href: 'https://github.com/Viscous106', icon: 'github' },
+    { label: 'X', href: 'https://x.com/viscous106', icon: 'twitter' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/yash-virulkar-338418329', icon: 'linkedin' },
     { label: 'Email', href: 'mailto:yash.virulkar@proton.me', icon: 'email' },
-    { label: 'X', href: 'https://x.com/viscous106', icon: 'twitter' },
     { label: 'Instagram', href: 'https://instagram.com/ynvirulkar', icon: 'instagram' },
   ],
   codingNotesHref: 'https://github.com/Viscous106/codingNotes',

@@ -40,6 +40,15 @@ describe('portfolio content', () => {
     expect(JSON.stringify(portfolio)).not.toMatch(/track for ~200/);
   });
 
+  it('matches the profile README: 2x hackathon winner, no mentoring line, X before LinkedIn', () => {
+    expect(portfolio.intro).toMatch(/2× hackathon winner/i);
+    expect(JSON.stringify(portfolio)).not.toMatch(/Mentoring students/);
+    const labels = portfolio.socials.map((s) => s.label);
+    expect(labels.indexOf('X')).toBe(labels.indexOf('LinkedIn') - 1);
+    const eth = portfolio.achievements.find((a) => a.title === '2nd place, ETHGlobal Mumbai')!;
+    expect(eth.href).toBe('https://github.com/mergit-io');
+  });
+
   it('contains none of the retired or private facts', () => {
     const all = JSON.stringify(portfolio);
     for (const banned of ['InterviewBit', 'RuView', 'Monad', 'mainnet', 'gmail', 'USDC', '98347', 'Abhinav']) {
