@@ -4,7 +4,7 @@ export const portfolio: Portfolio = {
   name: 'Yash Virulkar',
   tagline: 'Building across AI, systems, and the web.',
   intro:
-    'Co-founder of Mergit (2nd place, ETHGlobal Mumbai). I design and ship agentic AI systems, smart contracts, and full-stack products — and I like understanding every layer, from smart contracts to compositors.',
+    'Co-founder of Mergit (2nd place, ETHGlobal Mumbai). I design and ship agentic AI systems, smart contracts, and full-stack products — and I like understanding every layer, from compositors to smart contracts.',
   location: 'Bangalore, India',
   photo: 'https://github.com/Viscous106.png',
   resumeHref: '/Yash_Virulkar_Resume.pdf',
