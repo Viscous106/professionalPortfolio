@@ -1,78 +1,76 @@
 import { describe, it, expect } from 'vitest';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { portfolio } from '@/data/portfolio';
+
+const inPublic = (src: string) => existsSync(join(process.cwd(), 'public', src));
+
+const all = JSON.stringify(portfolio);
 
 describe('portfolio content', () => {
   it('has core identity fields', () => {
     expect(portfolio.name).toBe('Yash Virulkar');
-    expect(portfolio.photo).toBe('https://github.com/Viscous106.png');
-    expect(portfolio.tagline.length).toBeGreaterThan(0);
+    expect(portfolio.firstName).toBe('Yash');
+    expect(portfolio.location).toBe('Bangalore, India');
+    expect(portfolio.email).toBe('yash.virulkar@proton.me');
+    expect(portfolio.resumeHref).toBe('/Yash_Virulkar_Resume.pdf');
   });
 
-  it('features 11 projects, led by mergit, without RuView', () => {
-    expect(portfolio.projects).toHaveLength(11);
-    const names = portfolio.projects.map((p) => p.name);
-    expect(names[0]).toBe('mergit');
-    expect(names).toContain('CrownOS');
-    expect(names).toContain('omniBox');
-    expect(names).not.toContain('RuView');
+  it('leads the case-study carousel with Mergit and links out instead of embedding screenshots', () => {
+    expect(portfolio.cases[0].name).toBe('Mergit');
+    expect(portfolio.cases[0].href).toBe('https://mergit.site');
+    expect(portfolio.cases.length).toBeGreaterThanOrEqual(4);
+    for (const c of portfolio.cases) {
+      expect(c.href).toMatch(/^https:\/\//);
+      expect(c.panel.features).toHaveLength(3);
+      expect(c.panel.tiles).toHaveLength(2);
+    }
+    expect(JSON.stringify(portfolio.cases)).not.toMatch(/\.(png|jpe?g|webp|svg)"/);
   });
 
-  it('shows Yash as a Crown-OS contributor, never its founder or maintainer', () => {
-    const crown = portfolio.projects.find((p) => p.name === 'CrownOS')!;
-    expect(crown.blurb).toMatch(/contributor/i);
-    expect(JSON.stringify(portfolio)).not.toMatch(/(founder|maintainer)[^"]*crown|crown[^"]*(founder|maintainer)/i);
+  it('states stats that match the resume', () => {
+    const stats = Object.fromEntries(portfolio.stats.map((s) => [s.label, s.value]));
+    expect(stats['Merged open-source PRs']).toBe('6');
+    expect(stats['Hackathon wins']).toBe('2×');
+    expect(stats['People using Mergit']).toBe('~50');
   });
 
-  it('lists the Mergit co-founder role, the ETHGlobal result and the Web3 Lead role', () => {
-    const roles = portfolio.timeline.map((t) => `${t.title} @ ${t.org}`);
+  it('has three capabilities', () => {
+    expect(portfolio.capabilities).toHaveLength(3);
+  });
+
+  it('groups open source by organisation, each with a logo that exists and a link', () => {
+    expect(portfolio.orgs.map((o) => o.name)).toEqual(['KCL', 'Karmada', 'OpenWISP']);
+    for (const o of portfolio.orgs) {
+      expect(inPublic(o.logo)).toBe(true);
+      expect(o.href).toMatch(/^https:\/\/github\.com\//);
+    }
+    expect(portfolio.orgs.reduce((n, o) => n + o.merged, 0)).toBe(6);
+  });
+
+  it('gives every role a logo that exists', () => {
+    for (const e of portfolio.experience) expect(inPublic(e.logo)).toBe(true);
+  });
+
+  it('lists the Mergit co-founder and Web3 Lead roles and both degrees', () => {
+    const roles = portfolio.experience.map((e) => `${e.title} @ ${e.org}`);
     expect(roles).toContain('Co-founder @ Mergit');
-    expect(roles).toContain('Web3 Lead @ Open Source Club — SST');
-    expect(portfolio.achievements.map((a) => a.title)).toContain('2nd place, ETHGlobal Mumbai');
+    expect(roles).toContain('Web3 Lead @ Open Source Club, Scaler School of Technology');
+    expect(portfolio.education.map((e) => e.dates)).toEqual(['Aug 2025 – May 2029', 'Sep 2024 – Sep 2028']);
   });
 
-  it('links achievements to pages a logged-out visitor can open', () => {
-    for (const a of portfolio.achievements) {
-      expect(a.href ?? '').not.toMatch(/^https:\/\/github\.com\/pulls/);
+  it('shows Crown-OS only as a contribution', () => {
+    expect(all).not.toMatch(/(founder|maintainer)[^"]*crown|crown[^"]*(founder|maintainer)/i);
+    expect(portfolio.cases.find((c) => c.name === 'CrownOS')?.kicker).toMatch(/contributor/i);
+  });
+
+  it('has the five socials, X before LinkedIn', () => {
+    expect(portfolio.socials.map((s) => s.label)).toEqual(['GitHub', 'X', 'LinkedIn', 'Email', 'Instagram']);
+  });
+
+  it('contains none of the retired or private facts and no invented testimonials', () => {
+    for (const banned of ['InterviewBit', 'RuView', 'Monad', 'mainnet', 'gmail', 'USDC', '98347', 'Abhinav', 'track for ~200', 'get paid', 'are paid', 'testimonial']) {
+      expect(all.toLowerCase()).not.toContain(banned.toLowerCase());
     }
-  });
-
-  it('attributes ~200 to the club, not the Web3 track', () => {
-    expect(JSON.stringify(portfolio)).not.toMatch(/track for ~200/);
-  });
-
-  it('matches the profile README: 2x hackathon winner, no mentoring line, X before LinkedIn', () => {
-    expect(portfolio.intro).toMatch(/2× hackathon winner/i);
-    expect(JSON.stringify(portfolio)).not.toMatch(/Mentoring students/);
-    const labels = portfolio.socials.map((s) => s.label);
-    expect(labels.indexOf('X')).toBe(labels.indexOf('LinkedIn') - 1);
-    const eth = portfolio.achievements.find((a) => a.title === '2nd place, ETHGlobal Mumbai')!;
-    expect(eth.href).toBe('https://github.com/mergit-io');
-  });
-
-  it('contains none of the retired or private facts', () => {
-    const all = JSON.stringify(portfolio);
-    for (const banned of ['InterviewBit', 'RuView', 'Monad', 'mainnet', 'gmail', 'USDC', '98347', 'Abhinav']) {
-      expect(all).not.toContain(banned);
-    }
-  });
-
-  it('every project has a repo link and at least one tech tag', () => {
-    for (const p of portfolio.projects) {
-      expect(p.repo).toMatch(/^https:\/\/github\.com\//);
-      expect(p.tech.length).toBeGreaterThan(0);
-    }
-  });
-
-  it('includes a Web3 skill group with Solidity', () => {
-    const web3 = portfolio.skills.find((g) => g.category === 'Web3');
-    expect(web3).toBeDefined();
-    expect(web3!.skills).toContain('Solidity');
-  });
-
-  it('has the five required socials', () => {
-    const icons = portfolio.socials.map((s) => s.icon).sort();
-    expect(icons).toEqual(['email', 'github', 'instagram', 'linkedin', 'twitter']);
-    const email = portfolio.socials.find((s) => s.icon === 'email');
-    expect(email!.href).toBe('mailto:yash.virulkar@proton.me');
   });
 });

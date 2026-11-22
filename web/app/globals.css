@@ -1,36 +1,169 @@
 @import "tailwindcss";
 
-:root {
-  --background: #faf9f7;   /* warm off-white */
-  --surface: #ffffff;
-  --text: #1e2532;         /* deep slate */
-  --muted: #5b6472;
-  --accent: #4f46e5;       /* refined indigo */
-  --accent-hover: #4338ca;
-  --border: #e7e5e1;
+/* Light is the reference look: grey page, white panels, one vermilion accent. Dark keeps the same structure.
+   The inline script in layout.tsx sets <html data-theme> before first paint. */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --page: #f4f4f3;
+  --panel: #ffffff;
+  --card: #f1efea;
+  --ink: #0f1410;
+  --muted: #5f625d;
+  --line: #e2e1dd;
+  --guide: #e9e7e3;
+  --guide-accent: rgba(229, 72, 42, 0.12);
+  --grid: rgba(15, 20, 16, 0.045);
+  --accent: #e5482a;
+  --accent-ink: #ffffff;
+  --live: #1fae4b;
+  --band: #0e140f;
+  --band-ink: #eef0ea;
+  --band-muted: #9aa197;
+  --band-line: #222a23;
+  --lime: #d9f35f;
+  --tile: #0e140f;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0b0d0b;
+  --panel: #111411;
+  --card: #151915;
+  --ink: #eef0ea;
+  --muted: #9aa197;
+  --line: #242a24;
+  --guide: #1d221d;
+  --guide-accent: rgba(255, 90, 54, 0.16);
+  --grid: rgba(238, 240, 234, 0.045);
+  --accent: #ff5a36;
+  --accent-ink: #ffffff;
+  --live: #3ad46a;
+  --band: #050705;
+  --band-ink: #eef0ea;
+  --band-muted: #8f978c;
+  --band-line: #1c231d;
+  --lime: #d9f35f;
+  --tile: #1f2820;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-text: var(--text);
+  --color-page: var(--page);
+  --color-panel: var(--panel);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
   --color-muted: var(--muted);
+  --color-line: var(--line);
   --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-border: var(--border);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-accent-ink: var(--accent-ink);
+  --color-live: var(--live);
+  --color-band: var(--band);
+  --color-band-ink: var(--band-ink);
+  --color-band-muted: var(--band-muted);
+  --color-band-line: var(--band-line);
+  --color-lime: var(--lime);
+  --color-tile: var(--tile);
+  --font-display: var(--font-anton), Impact, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-serif: var(--font-instrument), Georgia, serif;
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* offset sticky navbar for anchor links */
+  scroll-padding-top: 6rem;
 }
 
+/* The page itself is drafting paper: a faint large grid, with warm accent light pooling behind the hero. */
 body {
-  background: var(--background);
-  color: var(--text);
-  font-family: var(--font-sans);
+  background-color: var(--page);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 85% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 0% 18%, color-mix(in srgb, var(--lime) 18%, transparent), transparent 70%),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 100% 1400px, 100% 1400px, 44px 44px, 44px 44px;
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.wrap {
+  margin-inline: auto;
+  max-width: 1200px;
+  padding-inline: 20px;
+}
+@media (min-width: 768px) {
+  .wrap { padding-inline: 44px; }
+}
+
+/* Heavy condensed caps: names and section titles. */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.92;
+  font-weight: 400;
+}
+
+/* Graph-paper texture inside cards. */
+.graph {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* The blueprint guides behind section headers: dashed rails top and bottom, two faint accent rules inside. */
+.guides {
+  position: relative;
+  border-block: 1px dashed var(--guide);
+}
+.guides::before,
+.guides::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--guide-accent);
+  pointer-events: none;
+}
+.guides::before { top: 30%; }
+.guides::after { bottom: 30%; }
+
+.link {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+  text-underline-offset: 0.25em;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.link:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* One load moment: the hero settles in. */
+@keyframes settle {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.settle {
+  animation: settle 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -39,9 +172,4 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }

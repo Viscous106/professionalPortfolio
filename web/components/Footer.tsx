@@ -3,12 +3,12 @@ import { SocialLinks } from './ui/SocialLinks';
 
 export function Footer() {
   return (
-    <footer className="border-t border-border py-10">
-      <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-4 px-6 text-center">
-        <SocialLinks />
-        <p className="text-sm text-muted">
-          © {new Date().getFullYear()} {portfolio.name}. Built with Next.js &amp; Tailwind.
+    <footer className="border-t border-line bg-panel">
+      <div className="wrap flex flex-col-reverse items-start justify-between gap-5 py-7 text-[13px] text-muted sm:flex-row sm:items-center">
+        <p>
+          © {new Date().getFullYear()} {portfolio.name}
         </p>
+        <SocialLinks />
       </div>
     </footer>
   );

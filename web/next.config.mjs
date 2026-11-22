@@ -10,6 +10,9 @@ const nextConfig = {
   trailingSlash: true,
   basePath,
   assetPrefix: basePath || undefined,
+  // Next blocks dev-server requests from origins other than localhost; without this, opening the dev site at
+  // 127.0.0.1 leaves the page un-hydrated, so no button works.
+  allowedDevOrigins: ['127.0.0.1'],
 };
 
 export default nextConfig;
